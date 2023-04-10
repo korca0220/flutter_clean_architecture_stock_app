@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_app/presentation/company_listings/company_listings_event.dart';
 import 'package:stock_app/presentation/company_listings/company_listings_view_model.dart';
 
 class CompanyListingsScreen extends StatelessWidget {
@@ -16,6 +17,9 @@ class CompanyListingsScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: TextField(
+                onChanged: (value) {
+                  viewModel.onEvent(CompanyListingsEvent.search(value));
+                },
                 decoration: InputDecoration(
                   labelText: '검색',
                   focusedBorder: OutlineInputBorder(
@@ -52,7 +56,9 @@ class CompanyListingsScreen extends StatelessWidget {
                     );
                   },
                 ),
-                onRefresh: () async {},
+                onRefresh: () async {
+                  viewModel.onEvent(const CompanyListingsEvent.refresh());
+                },
               ),
             ),
           ],

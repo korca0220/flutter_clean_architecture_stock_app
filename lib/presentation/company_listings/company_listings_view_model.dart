@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:stock_app/domain/repository/stock_repository.dart';
+import 'package:stock_app/presentation/company_listings/company_listings_event.dart';
 import 'package:stock_app/presentation/company_listings/company_listings_state.dart';
 
 class CompanyListingsViewModel with ChangeNotifier {
@@ -8,8 +11,22 @@ class CompanyListingsViewModel with ChangeNotifier {
     _getCompanyListings();
   }
 
+  Timer? _debounce;
+
   var _state = CompanyListingsState();
   CompanyListingsState get state => _state;
+
+  onEvent(CompanyListingsEvent event) {
+    event.when(
+      refresh: () => _getCompanyListings(fetchFromRemote: true),
+      search: (query) {
+        _debounce?.cancel();
+        _debounce = Timer(const Duration(milliseconds: 500), () {
+          _getCompanyListings(query: query);
+        });
+      },
+    );
+  }
 
   Future<void> _getCompanyListings(
       {bool fetchFromRemote = false, String query = ''}) async {
