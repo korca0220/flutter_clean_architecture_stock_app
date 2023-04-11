@@ -7,7 +7,6 @@ class CompanyListingsParser implements CsvParser<CompanyListing> {
   Future<List<CompanyListing>> parse(String csvString) async {
     List<List<dynamic>> csvValues =
         const CsvToListConverter().convert(csvString);
-
     // Title 삭제
     csvValues.removeAt(0);
     return csvValues

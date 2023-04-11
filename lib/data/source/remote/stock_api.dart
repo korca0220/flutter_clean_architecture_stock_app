@@ -24,6 +24,6 @@ class StockApi {
     required String symbol,
   }) async {
     return await _client.get(Uri.parse(
-        '$baseUrl/query?function=TIME_SERIES_INTRADAY&symbol=$symbol&interval=60min&apikey=$apiKey'));
+        '$baseUrl/query?function=TIME_SERIES_INTRADAY&symbol=$symbol&interval=60min&datatype=csv&apikey=$apiKey'));
   }
 }

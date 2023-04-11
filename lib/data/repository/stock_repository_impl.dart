@@ -65,6 +65,7 @@ class StockRepositoryImpl implements StockRepository {
     try {
       final response = await _api.getIntradayInfo(symbol: symbol);
       final results = await _intradayInfoParser.parse(response.body);
+
       return Result.success(results);
     } catch (e) {
       return Result.error(Exception('Intraday 정보 로드 실패!!'));
